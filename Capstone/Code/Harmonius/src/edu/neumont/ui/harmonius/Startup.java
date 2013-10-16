@@ -201,7 +201,7 @@ public class Startup extends JFrame {
 		notes.add(A3);
 		
 		painter = new PaintComponent();
-		setSize(800, 600);
+		setSize(1000, 800);
 		setLocationRelativeTo(null);
 		setTitle("Pitch detector" + fileName == null ? "" : " " + fileName);
 		setDefaultCloseOperation(3);
