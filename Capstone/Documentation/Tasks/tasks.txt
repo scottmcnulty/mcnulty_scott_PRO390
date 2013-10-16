@@ -1,0 +1,120 @@
+Week 1
+
+	Monday		
+	Tuesday		
+	Wednesday	
+	Thursday	
+	Friday		
+	Saturday	
+	Sunday		
+
+Week 2
+
+	Monday	
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday
+	Saturday	
+	Sunday		
+
+
+
+Week 3
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday		
+	Saturday	
+	Sunday	 	
+
+
+
+Week 4  
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday		
+	Saturday	
+	Sunday	 
+
+Week 5
+	Monday	       
+	Tuesday		
+	Wednesday
+	Thursday	
+	Friday		
+	Saturday	
+	Sunday	 
+
+Week 6
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday		
+	Saturday	
+	Sunday	 
+
+
+Week 7
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday		
+	Saturday	
+	Sunday	 
+
+Week 8
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday	 	
+	Friday		
+	Saturday	
+	Sunday
+	
+ 
+Week 9- 
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday	 	
+	Friday		
+	Saturday	
+	Sunday	 
+
+Week 10- Presentations!!
+	Monday	       
+	Tuesday		
+	Wednesday	
+	Thursday		
+	Friday		
+	Saturday	
+	Sunday	
+
+
+Project Backlog-
+	Features already planned for the project, from research and SME:
+
+	1.) A vocal student or musician would like to determine how accurate their ear is during warm-up exercises.  They will sing or play a pitch and the system will give feedback on its accuracy based on its closest frequency.
+ 
+	2.) A vocal student is training to have perfect pitch, meaning they would like to envision a note in their mind and sing it accurately without any auditory prompting.  The student enters how many random notes to try and the range of those notes.  The system presents the name of a note to the student; the student sings the note and receives accuracy feedback based on the correct frequency.
+
+	3.) A student would like to see a visual representation of their performance as it is in progress. As the student varies the pitch of their note, the system provides a visual representation of pitch performance.
+
+	4.) A music instructor would like to evaluate a student’s pitch performance on a musical phrase or song.  The system captures the student’s performance; it analyzes the performed music and displays accuracy feedback for the instructor and student based on closest frequency comparisons.  The instructor saves the session for further review.
+
+	
+	Added after project start:
+	
+	1.) Interval training- play a random note and have the student sing a given interval from that note, for example, a fifth.  Evaluate the student's pitch.
+	2.) Chord progression training for instrumental, as in for a guitar.
+	3.) Port to IPhone / Android  / Windows Phone
+
+
+
+

@@ -1,0 +1,16 @@
+Vendor code goes in this file folder.
+
+
+Yin is based on the well-known autocorrelation method with a number of
+modi?cations that combine to prevent errors. The algorithm has several desirable features. Error
+rates are about three times lower than the best competing methods, as evaluated over a database of
+speech recorded together with a laryngograph signal. There is no upper limit on the frequency
+search range, so the algorithm is suited for high-pitched voices and music. The algorithm is
+relatively simple and may be implemented ef?ciently and with low latency, and it involves few
+parameters that must be tuned.
+
+
+White Paper:  http://audition.ens.fr/adc/pdf/2002_JASA_YIN.pdf
+
+
+Java implementation:  http://tarsos.0110.be/artikels/lees/YIN_Pitch_Tracker_in_JAVA

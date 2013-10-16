@@ -1,0 +1,44 @@
+Week 1
+   
+
+Week 2
+	
+
+
+
+
+Week 3
+	
+Week 4
+
+Week 5
+
+Week 6	 
+
+Week 7	
+
+Week 8
+	
+Week 9
+
+Week 10 - Presentation!
+
+
+
+
+
+OLD NOTES:
+
+-Remember the goals of this project-
+
+		1. -Sing or play a pitch and the system will give feedback on its accuracy based on its closest 			frequency.
+
+		2. -The system presents the name of a note to the student; the student sings the note and receives 			accuracy feedback based on the correct frequency.
+	
+		3. -As the student varies the pitch of their note, the system provides a visual representation of pitch 		performance.
+		
+		4. -The system captures the student’s performance; it analyzes the performed music and displays 			accuracy feedback for the instructor and student based on closest frequency comparisons.  The 				instructor saves the session for further review.
+
+	Only the last one involves recording and analyzing .wav files.  Moving on to real-time analysis.
+
+Researching and using Java gui techniques - there will be a main menu and at least 5 different app views for this project.  Need to figure out how to play a nice sounding tone for user to sing/play.  Researching how to represent the notes with graphics, and make something that looks good for polish.  If finished early, need to look into making my own format for persisting a training session.
