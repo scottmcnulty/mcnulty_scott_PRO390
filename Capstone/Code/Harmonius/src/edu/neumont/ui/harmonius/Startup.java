@@ -26,28 +26,17 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import edu.neumont.note.harmonius.Note;
+import edu.neumont.note.harmonius.WesternScale;
 import edu.neumont.vendor.harmonius.AudioFloatInputStream;
 import edu.neumont.vendor.harmonius.PaintComponent;
 import edu.neumont.vendor.harmonius.Yin;
 import edu.neumont.vendor.harmonius.Yin.DetectedPitchHandler;
 
+
+
 public class Startup extends JFrame {	
 	
-	ArrayList<Note> notes = new ArrayList<Note>();
 	
-	Note A2 = new Note("A2", 110.0F);
-	Note A2Sharp = new Note("A2Sharp", 116.54F);
-	Note B2 = new Note("B2", 123.47F);
-	Note C3 = new Note("C3", 130.81F);
-	Note C3Sharp = new Note("C3Sharp", 138.59F);
-	Note D3 = new Note("D3", 146.83F);
-	Note D3Sharp = new Note("D3Sharp", 155.56F);
-	Note E3 = new Note("E3", 164.81F);
-	Note F3 = new Note("F3", 174.61F);
-	Note F3Sharp = new Note("F3Sharp", 185.0F);
-	Note G3 = new Note("G3", 196.00F);
-	Note G3Sharp = new Note("G3Sharp", 207.65F);
-	Note A3 = new Note("A3", 220.0F);
 	
 	class AudioInputProcessor implements Runnable {
 
@@ -59,6 +48,8 @@ public class Startup extends JFrame {
 			audioBufferSize = 0.1;//Seconds
 		}
 
+		
+		//
 		public void run() {
 			javax.sound.sampled.Mixer.Info selected = (javax.sound.sampled.Mixer.Info) mixer_selector.getSelectedItem();
 			if (selected == null)
@@ -140,9 +131,7 @@ public class Startup extends JFrame {
 
 				private String getNote(float pitch) {
 					String note = "";
-						
-					// each octave has a bigger spread of frequency between notes - it doubles
-					// so only implemented the octave (13 notes) from 110 to 220
+					
 					for(Note n : notes){
 						if(pitch <= n.getFrequency()+2.0 && pitch > n.getFrequency()-2.0){
 							note = n.getNoteName() + "GREAT!!";
@@ -174,32 +163,29 @@ public class Startup extends JFrame {
 	}	
 	
 	
+	
+	
 	private static final long serialVersionUID = 1L;	
 	
 	//volatile because it runs on its own thread - volatile guarantees the most updated value
 	volatile AudioInputProcessor aiprocessor;
+	
 	PaintComponent painter;
+	
 	JComboBox mixer_selector;
+	
 	String fileName = null;
-
+	
+	WesternScale ws;
+	ArrayList<Note> notes;
+	
+	
 	public Startup(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		ws = new WesternScale();
+		notes = ws.getNotes();
 		aiprocessor = null;
 		this.fileName = fileName;
 
-		notes.add(A2);
-		notes.add(A2Sharp);
-		notes.add(B2);
-		notes.add(C3);
-		notes.add(C3Sharp);
-		notes.add(D3);
-		notes.add(D3Sharp);
-		notes.add(E3);
-		notes.add(F3);
-		notes.add(F3Sharp);
-		notes.add(G3);
-		notes.add(G3Sharp);
-		notes.add(A3);
-		
 		painter = new PaintComponent();
 		setSize(1000, 800);
 		setLocationRelativeTo(null);
