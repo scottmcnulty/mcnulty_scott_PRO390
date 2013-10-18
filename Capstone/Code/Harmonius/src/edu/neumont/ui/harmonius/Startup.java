@@ -87,6 +87,7 @@ public class Startup extends JFrame {
 				public void handleDetectedPitch(float time,float pitch) {
 					
 					String noteName = getNote(pitch);
+					
 					Graphics2D g = painter.getOfflineGraphics();
 					int w = painter.getWidth();
 					int h = painter.getHeight();
@@ -133,8 +134,8 @@ public class Startup extends JFrame {
 					String note = "";
 					
 					for(Note n : notes){
-						if(pitch <= n.getFrequency()+2.0 && pitch > n.getFrequency()-2.0){
-							note = n.getNoteName() + "GREAT!!";
+						if(pitch <= n.getFrequency()+1.0 && pitch > n.getFrequency()-1.0){
+							note = n.getNoteName() + " ON PITCH";
 						}
 					}
 					return note;
@@ -238,8 +239,8 @@ public class Startup extends JFrame {
 		jtp.addTab("Visual Feedback", jp4);
 		jtp.addTab("Session Training", jp5);
 		
-
 		setVisible(true); 
+		
 		for (int i = 0; i < mixers.length; i++) {
 			javax.sound.sampled.Mixer.Info mixerinfo = mixers[i];
 			if (AudioSystem.getMixer(mixerinfo).getTargetLineInfo().length != 0)
