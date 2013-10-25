@@ -37,12 +37,15 @@ import edu.neumont.vendor.harmonius.Yin.DetectedPitchHandler;
 public class Startup extends JFrame {	
 	
 	
+	private double[] pitch_history_total = new double[600];
+	int pitchCounter = 0;
 	
 	class AudioInputProcessor implements Runnable {
 
 		private final int sampleRate;
 		private final double audioBufferSize;
-
+		
+		
 		public AudioInputProcessor(){
 			sampleRate = 22050; //Hz
 			audioBufferSize = 0.1;//Seconds
@@ -74,6 +77,18 @@ public class Startup extends JFrame {
 				e.printStackTrace();
 			}
 			aiprocessor = null;
+			
+			double pitchAccum = 1.0;
+			int pitchCount = 1;
+			for(int i = 0; i < pitch_history_total.length; i++){
+				System.out.println(pitch_history_total[i] + "\t");
+				if(pitch_history_total[i] > 0){
+					
+						pitchAccum += pitch_history_total[i];  //add filter here to get rid of overtones
+						pitchCount++;
+				}
+			}
+			System.out.println("\n Average pitch = " + pitchAccum/pitchCount);
 		}
 
 		public void processAudio(AudioFloatInputStream afis) throws IOException, UnsupportedAudioFileException {
@@ -91,7 +106,7 @@ public class Startup extends JFrame {
 					Graphics2D g = painter.getOfflineGraphics();
 					int w = painter.getWidth();
 					int h = painter.getHeight();
-					g.setColor(Color.BLACK);
+					g.setColor(Color.LIGHT_GRAY);
 					g.fillRect(0, 0, w, h); 
 					
 					boolean noteDetected = pitch != -1;
@@ -102,16 +117,20 @@ public class Startup extends JFrame {
 					if (pitch_history_pos == pitch_history.length)
 						pitch_history_pos = 0;
 					
-					g.setColor(Color.WHITE);
+					g.setColor(Color.BLACK);
 					
 					g.drawString((new StringBuilder("Duration: ")).append(detectedNote).toString(), 20, 20);
 					g.drawString((new StringBuilder("Freq: ")).append(pitch).toString(), 20, 40);
+					
+					pitch_history_total[pitchCounter] = pitch;
+					pitchCounter++;
+					
 					g.drawString((new StringBuilder("Note: ")).append(noteName).toString(), 20, 60);
 					g.drawString((new StringBuilder("Time: ")).append(time).toString(), 20, 80);
 
 					pitch_history[pitch_history_pos] = noteDetected ? detectedNote : 0.0;
 
-
+					/*
 					int jj = pitch_history_pos;
 
 					for (int i = 0; i < pitch_history.length; i++) {
@@ -128,25 +147,28 @@ public class Startup extends JFrame {
 						if (++jj == pitch_history.length)
 							jj = 0;
 					}
-				
+					*/
+					
 					pitch_history_pos++;
 					painter.refresh();
 				}
 
-				private String getNote(float pitch) {
-					String note = "";
-					
-					for(Note n : notes){
-						if(pitch <= n.getFrequency()+1.0 && pitch > n.getFrequency()-1.0){
-							note = n.getNoteName() + " ON PITCH";
-						}
-					}
-					return note;
-				}
+				
 			});
 		}
 	}
 
+	private String getNote(float pitch) {
+		String note = "";
+		
+		for(Note n : notes){
+			if(pitch <= n.getFrequency()+1.0 && pitch > n.getFrequency()-1.0){
+				note = n.getNoteName() + " ON PITCH";
+			}
+		}
+		return note;
+	}
+	
 	public void startAction() {
 		if (aiprocessor != null) {
 			return;
@@ -202,6 +224,9 @@ public class Startup extends JFrame {
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
 		
+	
+		
+		
 		JPanel buttonpanel = new JPanel();
 		buttonpanel.setLayout(new FlowLayout(0));
 		main.add("North", buttonpanel);
@@ -213,36 +238,56 @@ public class Startup extends JFrame {
 		getContentPane().add(jtp);
 		
 		
+		//create GUI for jp1 (JPanel One)
 		JPanel jp1 = new JPanel();
-		JPanel jp2 = new JPanel();
-		JPanel jp3 = new JPanel();
-		JPanel jp4 = new JPanel();
-		JPanel jp5 = new JPanel();
-		JPanel jp6 = new JPanel();
-		
+		//jp1.setLayout(new BorderLayout());
+		//JPanel jp1ButtonPanel = new JPanel();
+		//jp1ButtonPanel.setLayout(new FlowLayout(0));
+		//jp1.add("North", buttonpanel);
 		JLabel label1 = new JLabel();
 		label1.setText("Welcome Page");
 		jp1.add(label1);
+		
+		
+		//create GUI for jp2 (JPanel Two)
+		JPanel jp2 = new JPanel();
 		
 		JLabel label2 = new JLabel();
 		label2.setText("Pitch Warm Up Training");
 		jp2.add(label2);
 		
+		
+		//create GUI for jp3 (JPanel Three)
+		JPanel jp3 = new JPanel();
+		
 		JLabel label3 = new JLabel();
 		label3.setText("Perfect Pitch Training");
 		jp3.add(label3);
+		
+		
+		//create GUI for jp4 (JPanel Four)
+		JPanel jp4 = new JPanel();
 		
 		JLabel label4 = new JLabel();
 		label4.setText("Note Identification Training");
 		jp4.add(label4);
 		
+		//create GUI for jp5 (JPanel Five)
+		JPanel jp5 = new JPanel();
+		
 		JLabel label5 = new JLabel();
 		label5.setText("Visual Feedback");
 		jp5.add(label5);
 		
+		
+		//create GUI for jp6 (JPanel Six)
+		JPanel jp6 = new JPanel();
+		
 		JLabel label6 = new JLabel();
 		label6.setText("Session Training");
 		jp6.add(label6);
+		
+		
 		
 		//adds panels jp1 - jp5 to the appropriate tabbed windows
 		jtp.addTab("Welcome Page", jp1);
@@ -253,6 +298,8 @@ public class Startup extends JFrame {
 		jtp.addTab("Session Training", jp6);
 		
 		setVisible(true); 
+		
+		
 		
 		for (int i = 0; i < mixers.length; i++) {
 			javax.sound.sampled.Mixer.Info mixerinfo = mixers[i];
