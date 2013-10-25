@@ -23,6 +23,7 @@ public class Note {
 	public Note(String name, float freq){
 		this.frequency = freq;
 		this.noteName = name;
+		this.noteDuration = 0.0F;
 	}
 	public float getNoteDuration() {
 		return noteDuration;

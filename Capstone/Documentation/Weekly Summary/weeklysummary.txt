@@ -7,7 +7,7 @@ Week 1
     Day 6:
     Day 7:  
     Meeting results:
-        Backlog and Tasks Updated: 
+        Backlog and Tasks Updated: Yes
 	Time Check: 
 	VCS Check:
 	Technical Merit:

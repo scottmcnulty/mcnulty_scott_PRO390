@@ -80,7 +80,7 @@ public class Startup extends JFrame {
 
 			Yin.processStream(afis,new DetectedPitchHandler() {
 
-				final double pitch_history[] = new double[600];
+				final double pitch_history[] = new double[600];  //600 is default value to get a pretty good visual line of pitch
 				int pitch_history_pos = 0;
 
 				@Override
@@ -93,7 +93,9 @@ public class Startup extends JFrame {
 					int h = painter.getHeight();
 					g.setColor(Color.BLACK);
 					g.fillRect(0, 0, w, h); 
+					
 					boolean noteDetected = pitch != -1;
+					
 					double detectedNote = 69D + (12D * Math.log(pitch / 440D)) / Math.log(2D);
 					//noteDetected = noteDetected && Math.abs(detectedNote - Math.round(detectedNote)) > 0.3;
 
@@ -101,6 +103,7 @@ public class Startup extends JFrame {
 						pitch_history_pos = 0;
 					
 					g.setColor(Color.WHITE);
+					
 					g.drawString((new StringBuilder("Duration: ")).append(detectedNote).toString(), 20, 20);
 					g.drawString((new StringBuilder("Freq: ")).append(pitch).toString(), 20, 40);
 					g.drawString((new StringBuilder("Note: ")).append(noteName).toString(), 20, 60);
@@ -177,21 +180,25 @@ public class Startup extends JFrame {
 	
 	String fileName = null;
 	
+	//can replace with (soon to be built) other tonal scales with their notes and pitch values
 	WesternScale ws;
 	ArrayList<Note> notes;
 	
 	
 	public Startup(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		
 		ws = new WesternScale();
 		notes = ws.getNotes();
 		aiprocessor = null;
 		this.fileName = fileName;
-
 		painter = new PaintComponent();
-		setSize(1000, 800);
+		
+		setTitle("Harmonius"); 
+		setSize(1024,768); 
 		setLocationRelativeTo(null);
 		setTitle("Pitch detector" + fileName == null ? "" : " " + fileName);
 		setDefaultCloseOperation(3);
+		
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
 		
@@ -201,20 +208,20 @@ public class Startup extends JFrame {
 		ArrayList<javax.sound.sampled.Mixer.Info> capMixers = new ArrayList<javax.sound.sampled.Mixer.Info>();
 		javax.sound.sampled.Mixer.Info mixers[] = AudioSystem.getMixerInfo();
 		
-		this.setTitle("Harmonius"); 
-		this.setSize(1024,700); 
 		
 		JTabbedPane jtp = new JTabbedPane();
-
 		getContentPane().add(jtp);
+		
+		
 		JPanel jp1 = new JPanel();
 		JPanel jp2 = new JPanel();
 		JPanel jp3 = new JPanel();
 		JPanel jp4 = new JPanel();
 		JPanel jp5 = new JPanel();
+		JPanel jp6 = new JPanel();
 		
 		JLabel label1 = new JLabel();
-		label1.setText("Main Menu");
+		label1.setText("Welcome Page");
 		jp1.add(label1);
 		
 		JLabel label2 = new JLabel();
@@ -226,18 +233,24 @@ public class Startup extends JFrame {
 		jp3.add(label3);
 		
 		JLabel label4 = new JLabel();
-		label4.setText("Visual FeedBack Note Training");
+		label4.setText("Note Identification Training");
 		jp4.add(label4);
 		
 		JLabel label5 = new JLabel();
-		label5.setText("Session Training");
+		label5.setText("Visual Feedback");
 		jp5.add(label5);
 		
-		jtp.addTab("Main Menu", main);
-		jtp.addTab("Pitch Warm Up", jp2);
+		JLabel label6 = new JLabel();
+		label6.setText("Session Training");
+		jp6.add(label6);
+		
+		//adds panels jp1 - jp5 to the appropriate tabbed windows
+		jtp.addTab("Welcome Page", jp1);
+		jtp.addTab("Warm Up", main);
 		jtp.addTab("Perfect Pitch", jp3);
-		jtp.addTab("Visual Feedback", jp4);
-		jtp.addTab("Session Training", jp5);
+		jtp.addTab("Note ID", jp4);
+		jtp.addTab("Visual Feedback", jp5);
+		jtp.addTab("Session Training", jp6);
 		
 		setVisible(true); 
 		
@@ -247,6 +260,9 @@ public class Startup extends JFrame {
 				capMixers.add(mixerinfo);
 		}
 
+	
+		
+		// GUI components   - buttons, combobox, etc.
 		mixer_selector = new JComboBox(capMixers.toArray());
 		buttonpanel.add(mixer_selector);
 		JButton startbutton = new JButton("Start");
@@ -255,6 +271,7 @@ public class Startup extends JFrame {
 				startAction();
 			}
 		});
+		
 		buttonpanel.add(startbutton);
 		JButton stopbutton = new JButton("stop");
 		stopbutton.addActionListener(new ActionListener() {
@@ -262,10 +279,14 @@ public class Startup extends JFrame {
 				stopAction();
 			}
 		});
+		
 		buttonpanel.add(stopbutton);
+		
 		main.add("Center", painter);
 	}
 
+	
+	
 	public static void main(String args[]) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		if(args.length==0 | args.length == 2){
 			String fileName = args.length==0 ? null : args[1];
