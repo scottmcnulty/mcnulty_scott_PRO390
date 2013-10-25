@@ -78,17 +78,7 @@ public class Startup extends JFrame {
 			}
 			aiprocessor = null;
 			
-			double pitchAccum = 1.0;
-			int pitchCount = 1;
-			for(int i = 0; i < pitch_history_total.length; i++){
-				System.out.println(pitch_history_total[i] + "\t");
-				if(pitch_history_total[i] > 0){
-					
-						pitchAccum += pitch_history_total[i];  //add filter here to get rid of overtones
-						pitchCount++;
-				}
-			}
-			System.out.println("\n Average pitch = " + pitchAccum/pitchCount);
+			
 		}
 
 		public void processAudio(AudioFloatInputStream afis) throws IOException, UnsupportedAudioFileException {
@@ -146,8 +136,8 @@ public class Startup extends JFrame {
 						}
 						if (++jj == pitch_history.length)
 							jj = 0;
-					}
-					*/
+					}*/
+				
 					
 					pitch_history_pos++;
 					painter.refresh();
@@ -155,6 +145,20 @@ public class Startup extends JFrame {
 
 				
 			});
+			
+			double pitchAccum = 1.0;
+			int pitchCount = 1;
+			for(int i = 0; i < pitch_history_total.length; i++){
+				System.out.println(pitch_history_total[i] + "\t");
+				if(pitch_history_total[i] > 0){
+					
+						pitchAccum += pitch_history_total[i];  //add filter here to get rid of overtones
+						pitchCount++;
+				}
+			}
+			double averagePitch = pitchAccum/pitchCount;
+			System.out.println("\n Average pitch = " + averagePitch);
+			
 		}
 	}
 
@@ -223,9 +227,6 @@ public class Startup extends JFrame {
 		
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
-		
-	
-		
 		
 		JPanel buttonpanel = new JPanel();
 		buttonpanel.setLayout(new FlowLayout(0));
