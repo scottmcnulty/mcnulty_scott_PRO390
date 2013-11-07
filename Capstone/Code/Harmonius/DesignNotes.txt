@@ -1,0 +1,42 @@
+Design Notes:
+
+Interaction Between MVC Components
+ 
+This section will take a closer look at one way to implement MVC in the context of an application in the Java Platform, Standard Edition 6 (Java SE 6).
+ 
+Once the model, view, and controller objects are instantiated, the following occurs:
+
+The view registers as a listener on the model. Any changes to the underlying data of the model immediately result in a broadcast change 
+notification, which the view receives. This is an example of the push model described earlier. Note that the model is not aware of the 
+view or the controller -- it simply broadcasts change notifications to all interested listeners.  The controller is bound to the view. This
+typically means that any user actions that are performed on the view will invoke a registered listener method in the controller class.
+
+The controller is given a reference to the underlying model.  Once a user interacts with the view, the following actions occur:
+
+The view recognizes that a GUI action -- for example, pushing a button or dragging a scroll bar -- has occurred, using a listener method that
+is registered to be called when such an action occurs.  The view calls the appropriate method on the controller.
+The controller accesses the model, possibly updating it in a way appropriate to the user's action.
+
+If the model has been altered, it notifies interested listeners, such as the view, of the change. In some architectures, the 
+controller may also be responsible for updating the view. This is common in Java technology-based enterprise applications.
+
+
+THIS MVC DESIGN:
+An MVC Design Placing the Controller Between the Model and the View
+ 
+The primary difference between this design and the more traditional version of MVC is that the notifications of state changes in model objects 
+are communicated to the view through the controller. Hence, the controller mediates the flow of data between model and view objects in both 
+directions. View objects, as always, use the controller to translate user actions into property updates on the model. In addition, changes in model 
+state are communicated to view objects through an application's controller objects.
+
+Thus, when all three components are instantiated, the view and the model will both register with the controller. Once a user interacts with the view, 
+the events are nearly identical:
+
+The view recognizes that a GUI action -- for example, pushing a button or dragging a scroll bar -- has occurred, using a listener method that is registered
+ to be called when such an action occurs.
+The view calls the appropriate method on the controller.
+The controller accesses the model, possibly updating it in a way appropriate to the user's action.
+If the model has been altered, it notifies interested listeners of the change. However, in this case, the change is sent to the controller.
+Why adopt this design? Using this modified MVC helps to more completely decouple the model from the view. In this case, the controller can dictate the model 
+properties that it expects to find in one or more models registered with the controller. In addition, it can also provide the methods that effect the model's 
+property changes for one or more views that are registered with it.

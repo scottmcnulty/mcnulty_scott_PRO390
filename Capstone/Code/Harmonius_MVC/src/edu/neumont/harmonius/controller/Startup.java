@@ -1,4 +1,4 @@
-package edu.neumont.ui.harmonius;
+package edu.neumont.harmonius.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,12 +25,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import edu.neumont.note.harmonius.Note;
-import edu.neumont.note.harmonius.WesternScale;
-import edu.neumont.vendor.harmonius.AudioFloatInputStream;
-import edu.neumont.vendor.harmonius.PaintComponent;
-import edu.neumont.vendor.harmonius.Yin;
-import edu.neumont.vendor.harmonius.Yin.DetectedPitchHandler;
+import edu.neumont.harmonius.note.Note;
+import edu.neumont.harmonius.note.WesternScale;
+import edu.neumont.harmonius.vendor.AudioFloatInputStream;
+import edu.neumont.harmonius.vendor.PaintComponent;
+import edu.neumont.harmonius.vendor.Yin;
+import edu.neumont.harmonius.vendor.Yin.DetectedPitchHandler;
 
 
 
@@ -85,7 +85,7 @@ public class Startup extends JFrame {
 
 			Yin.processStream(afis,new DetectedPitchHandler() {
 
-				final double pitch_history[] = new double[600];  //600 is default value to get a pretty good visual line of pitch
+				final double pitch_history[] = new double[6000];  //600 is default value to get a pretty good visual line of pitch
 				int pitch_history_pos = 0;
 
 				@Override
@@ -120,7 +120,7 @@ public class Startup extends JFrame {
 
 					pitch_history[pitch_history_pos] = noteDetected ? detectedNote : 0.0;
 
-					/*
+					
 					int jj = pitch_history_pos;
 
 					for (int i = 0; i < pitch_history.length; i++) {
@@ -136,7 +136,7 @@ public class Startup extends JFrame {
 						}
 						if (++jj == pitch_history.length)
 							jj = 0;
-					}*/
+					}
 				
 					
 					pitch_history_pos++;
@@ -148,15 +148,20 @@ public class Startup extends JFrame {
 			
 			double pitchAccum = 1.0;
 			int pitchCount = 1;
+			double averagePitch = 0;  
 			for(int i = 0; i < pitch_history_total.length; i++){
 				System.out.println(pitch_history_total[i] + "\t");
-				if(pitch_history_total[i] > 0){
+				if(pitch_history_total[i] > 0){  //filter out zeros and -1(no signal)
 					
-						pitchAccum += pitch_history_total[i];  //add filter here to get rid of overtones
-						pitchCount++;
+					//filter to get rid of overtones
+					if(Math.abs(averagePitch - pitch_history_total[i]) < 300){ //tighten up
+					
+					pitchAccum += pitch_history_total[i];  
+					pitchCount++;
+					}
 				}
+				averagePitch = pitchAccum/pitchCount;
 			}
-			double averagePitch = pitchAccum/pitchCount;
 			System.out.println("\n Average pitch = " + averagePitch);
 			
 		}
