@@ -5,6 +5,8 @@ import edu.neumont.harmonius.vendor.StdAudio;
 public class TonePlayer {
 
 	  // create a tone of the given frequency for the given duration
+	  // uses a double[] to hold values
+	
 	    public static double[] tone(double hz, double duration) { 
 	        int N = (int) (StdAudio.SAMPLE_RATE * duration);
 	        double[] a = new double[N+1];
